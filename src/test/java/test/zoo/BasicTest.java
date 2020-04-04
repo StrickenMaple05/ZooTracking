@@ -1,4 +1,4 @@
-package test;
+package test.zoo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +16,8 @@ import java.util.*;
 @DisplayName("Зоопарк: проверка основы")
 public class BasicTest {
 
+    private final Calendar calendar =new GregorianCalendar(
+            1981, Calendar.FEBRUARY, 4);
     private Employee Jack;
     private Employee John;
     private Animal lion;
@@ -26,11 +28,11 @@ public class BasicTest {
     public void Init() {
         zoo = new Zoo("Сан-Диего");
 
-        Jack = new Employee("Джек", LocalDate.of(1981, Calendar.FEBRUARY, 4));
-        John  = new Employee("Джон", LocalDate.of(1980, Calendar.FEBRUARY, 3));
+        Jack = new Employee("Джек", calendar.getTime());
+        John  = new Employee("Джон", calendar.getTime());
 
-        lion = new Animal("лев", LocalDate.now());
-        wolf = new Animal("волк", LocalDate.now());
+        lion = new Animal("лев", new Date());
+        wolf = new Animal("волк", new Date());
     }
 
 

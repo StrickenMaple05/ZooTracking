@@ -4,7 +4,6 @@ import tracking.Tracked;
 import zoo.Position;
 import zoo.employee.Employee;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class Animal implements Tracked {
@@ -12,21 +11,23 @@ public class Animal implements Tracked {
     private static final String PREFIX = "animal-";
     private static int ID = 0;
 
+
     public double x;
     public double y;
 
-    private List<Position> movements;
 
     /** Уникальный идентификатор */
-    private int id;
+    private final int id;
     /** Название животного */
-    private String name;
+    private final String name;
     /** Дата рождения */
-    private LocalDate dateOfBirth;
+    private final Date dateOfBirth;
     /** Опекуны */
     private Set<Employee> employees;
     /** Журнал болезней */
     private List<DiseaseNote> diseaseDiary;
+    /** Журнал передвижений животного */
+    private List<Position> movements;
 
 
     /**
@@ -34,7 +35,7 @@ public class Animal implements Tracked {
      * @param name название
      * @param dateOfBirth дата рождения
      */
-    public Animal(String name, LocalDate dateOfBirth) {
+    public Animal(String name, Date dateOfBirth) {
         id = ID++;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -44,6 +45,7 @@ public class Animal implements Tracked {
     }
 
 
+    //========================== Интерфейсные методы =============================//
     /**
      * Реализация интерфейсного метода: получение уникального идентификатора
      * @return id
@@ -51,7 +53,6 @@ public class Animal implements Tracked {
     public String getId() {
         return PREFIX.concat(Integer.toString(id));
     }
-
     /**
      * Реализация интерфейсного метода обновления позиции
      * @param x по OX
@@ -72,6 +73,7 @@ public class Animal implements Tracked {
             movements.add(position);
         }
     }
+    //============================================================================//
 
 
 
@@ -82,7 +84,6 @@ public class Animal implements Tracked {
     public void add(DiseaseNote diseaseNote) {
         diseaseDiary.add(diseaseNote);
     }
-
     /**
      * Добавление опекуна
      * @param employee опекун
@@ -90,7 +91,6 @@ public class Animal implements Tracked {
     public void add(Employee employee) {
         employees.add(employee);
     }
-
     /**
      * Снятие опекуна
      * @param employee опекун
@@ -99,13 +99,12 @@ public class Animal implements Tracked {
         employees.remove(employee);
     }
 
-    public List<Position> getMovements() {
-        return movements;
-    }
+
+
     public String getName() {
         return name;
     }
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
     public Set<Employee> getEmployees() {
@@ -114,14 +113,20 @@ public class Animal implements Tracked {
     public List<DiseaseNote> getDiseaseDiary() {
         return diseaseDiary;
     }
+    public List<Position> getMovements() {
+        return movements;
+    }
+
 
     @Override
     public String toString() {
         return "Animal{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", employees=" + employees +
                 ", diseaseDiary=" + diseaseDiary +
+                ", movements=" + movements +
                 '}';
     }
 }

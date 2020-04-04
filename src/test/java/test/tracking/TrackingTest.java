@@ -1,4 +1,4 @@
-package test;
+package test.tracking;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,23 +11,23 @@ import zoo.animal.Animal;
 import zoo.employee.Employee;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @DisplayName("Проверка системы отслеживания")
 public class TrackingTest {
+
+    private final Calendar calendar =new GregorianCalendar(
+            1981, Calendar.FEBRUARY, 4);
     private TrackingService trackingService;
-    private Employee Jack;
     private Employee John;
     private Animal lion;
 
     @BeforeEach
     public void Init() {
         trackingService = new TrackingService();
-        John = new Employee("Джек", LocalDate.of(1981, Calendar.FEBRUARY, 4));
-        lion = new Animal("лев", LocalDate.now());
+        John = new Employee("Джон", calendar.getTime());
+        lion = new Animal("лев", new Date());
     }
 
     @DisplayName("Обновление местоположения")
@@ -95,23 +95,23 @@ public class TrackingTest {
     @Test
     public void EmployeeActionTest() {
         List<String> employeeActions = new ArrayList<>();
-
+        John.updatePosition(100,100);
         trackingService.add(John);
-        employeeActions.add(new Date() + " | " + John.getId() + " left the zoo");
+        employeeActions.add(new Date() + " | " + John.getId() + " entered the zoo");
 
-        trackingService.updatePositions(new Position(100, 100));
+        trackingService.updatePositions(new Position(0, 0));
 
-        /* Проверяем, ушёл ли Джон из зоопарка */
-        Assertions.assertFalse(John.isInZoo());
-        /* Проверяем, внесена ли заметка о том, что Джон ушёл из зоопарка */
+        /* Проверяем, зашёл ли Джон в зоопарк */
+        Assertions.assertTrue(John.isInZoo());
+        /* Проверяем, внесена ли заметка о том, что Джон зашёл в зоопарк */
         Assertions.assertEquals(employeeActions.toString(),
                 trackingService.getEmployeeActions().toString());
 
-        trackingService.updatePositions(new Position(0,0));
-        employeeActions.add(new Date() + " | " + John.getId() + " entered the zoo");
+        trackingService.updatePositions(new Position(100, 100));
+        employeeActions.add(new Date() + " | " + John.getId() + " left the zoo");
         /* Проверяем, находится ли Джон в зоопарке */
-        Assertions.assertTrue(John.isInZoo());
-        /* Проверяем, внесена ли заметка о том, что Джон зашёл в зоопарк */
+        Assertions.assertFalse(John.isInZoo());
+        /* Проверяем, внесена ли заметка о том, что Джон вышел из зоопарка */
         Assertions.assertEquals(employeeActions.toString(),
                 trackingService.getEmployeeActions().toString());
     }

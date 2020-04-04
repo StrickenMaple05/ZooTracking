@@ -26,6 +26,13 @@ public class Interaction {
         return trackedB;
     }
 
+    public Date getBegin() {
+        return begin;
+    }
+    public Date getEnd() {
+        return end;
+    }
+
     @Override
     public String toString() {
         return "Interaction{" +
